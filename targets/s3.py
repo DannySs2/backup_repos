@@ -1,4 +1,5 @@
 import os
+import datetime
 import boto3
 from botocore.exceptions import ClientError
 from core.models import Repo
@@ -28,10 +29,11 @@ class S3Target(Target):
         return session.client("s3")
 
     def _build_key(self, repo: Repo, tar_path: str):
+        date = datetime.datetime.now().strftime("%Y-%m-%d")
         filename = os.path.basename(tar_path)
         if repo.s3_prefix:
-            return f"{repo.s3_prefix}/{filename}"
-        return f"{repo.name}/{filename}"
+            return f"{date}/{repo.s3_prefix}/{filename}"
+        return f"{date}/{repo.name}/{filename}"
 
     def _upload(self, s3, bucket, key, file_path):
         try:

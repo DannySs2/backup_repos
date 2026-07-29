@@ -3,7 +3,7 @@ import os
 import shutil
 from dotenv import load_dotenv
 
-from core.models import load_repos
+from core.models import load_repos, fetch_github_repos
 from core.backup import get_backup_folder, clone_mirror, make_tarball
 from targets.github import GithubTarget
 from targets.s3 import S3Target
@@ -30,13 +30,20 @@ def cmd_backup():
     print(f"\nBackups en: {backup_path}")
 
 
-def cmd_migrate(target_name: str):
+def cmd_migrate(target_name: str, use_all: bool = False):
     target = TARGETS.get(target_name)
     if not target:
         print(f"Target inválido: {target_name}. Opciones: {', '.join(TARGETS)}")
         sys.exit(1)
 
-    repos = load_repos()
+    if use_all:
+        print("Obteniendo repos desde GitHub API...")
+        repos = fetch_github_repos()
+        print(f"Se encontraron {len(repos)} repositorios:")
+        for r in repos:
+            print(f"  - {r.name}")
+    else:
+        repos = load_repos()
 
     for repo in repos:
         temp_dir = f"/tmp/{repo.name}.git"
@@ -54,7 +61,7 @@ def cmd_migrate(target_name: str):
 
 def main():
     if len(sys.argv) < 2:
-        print("Uso: python app.py [backup | migrate github|s3]")
+        print("Uso: python app.py [backup | migrate github|s3 [--all]]")
         return
 
     mode = sys.argv[1]
@@ -63,9 +70,11 @@ def main():
         cmd_backup()
     elif mode == "migrate":
         if len(sys.argv) < 3:
-            print("Uso: python app.py migrate [github | s3]")
+            print("Uso: python app.py migrate [github | s3] [--all]")
             return
-        cmd_migrate(sys.argv[2])
+        target_name = sys.argv[2]
+        use_all = len(sys.argv) > 3 and sys.argv[3] == "--all"
+        cmd_migrate(target_name, use_all=use_all)
     else:
         print(f"Modo inválido: {mode}. Usa: backup o migrate")
 

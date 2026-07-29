@@ -1,13 +1,10 @@
 [
   {
     "name": "desarrollo21_CMS_Fundacion_clinica",
-    "source": "git@gitlab-new:desarrollo21/CMS_Fundacion_clinica.git",
-    "target": "git@github-new:desarrolloHT2023/desarrollo21_CMS_Fundacion_clinica.git"
+    "source": "git@github-new:desarrolloHT2023/desarrollo21_CMS_Fundacion_clinica.git"
   },
   {
     "name": "desarrollo21_bk-horbath",
-    "source": "git@gitlab-new:desarrollo21/bk-horbath.git",
-    "target": "git@github-new:desarrolloHT2023/desarrollo21_bk-horbath.git",
-    "s3_prefix": "buckups/horbath"
+    "source": "git@github-new:desarrolloHT2023/desarrollo21_bk-horbath.git"
   }
 ]
