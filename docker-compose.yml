@@ -1,0 +1,13 @@
+services:
+  repos-tool:
+    build: .
+    command: ["backup"]
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - BACKUP_DIR=${BACKUP_DIR:-/app/backups}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+    volumes:
+      - ~/.ssh:/root/.ssh:ro
+      - ./backups:/app/backups
+      - ./repos.json:/app/repos.json
