@@ -7,6 +7,12 @@ services:
       - PGID=${PGID:-1000}
       - BACKUP_DIR=${BACKUP_DIR:-/app/backups}
       - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - GITHUB_OWNER=${GITHUB_OWNER:-}
+      - GITHUB_HOST=${GITHUB_HOST:-github-new}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - S3_BUCKET=${S3_BUCKET:-}
     volumes:
       - ~/.ssh:/root/.ssh:ro
       - ./backups:/app/backups

@@ -14,6 +14,8 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app.py .
+COPY core/ core/
+COPY targets/ targets/
 COPY repos.json* ./
 
 RUN mkdir -p /app/backups
